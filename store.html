@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>STYLE STORE — Luxury Clothing, Butwal</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700;800&family=Inter:wght@400;500;600;700&display=swap');
+
+  :root{
+    --ink:#211C18;
+    --ink-2:#33291F;
+    --paper:#F6F2EA;
+    --paper-dim:#ECE5D6;
+    --gold:#B8912F;
+    --gold-light:#D8B968;
+    --burgundy:#5E2430;
+    --line:#D8CFBA;
+    --red:#93342F;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html,body{background:var(--paper); color:var(--ink); font-family:'Inter',sans-serif; scroll-behavior:smooth;}
+  a{color:inherit; text-decoration:none;}
+  img{max-width:100%; display:block;}
+  button{font-family:inherit; cursor:pointer; border:none; background:none;}
+  input,select,textarea{font-family:inherit;}
+
+  h1,h2,h3,.display{font-family:'Playfair Display', serif; font-weight:700; line-height:1.05; letter-spacing:0;}
+
+  #loadingScreen{position:fixed; inset:0; background:var(--ink); color:var(--gold-light); display:flex; align-items:center; justify-content:center; font-family:'Playfair Display'; font-size:22px; letter-spacing:.08em; z-index:999;}
+
+  /* NAV */
+  header.site{position:sticky; top:0; z-index:50; background:var(--paper); border-bottom:1px solid var(--ink);}
+  .navbar{display:flex; align-items:center; justify-content:space-between; padding:16px 32px; max-width:1280px; margin:0 auto; position:relative;}
+  .brand{font-family:'Playfair Display'; font-weight:800; font-size:23px; letter-spacing:.02em;}
+  .brand span{color:var(--gold);}
+  nav.links{display:flex; align-items:center; gap:26px; font-weight:600; font-size:14px;}
+  nav.links button{color:var(--ink); position:relative; padding:4px 0;}
+  nav.links button.active::after{content:''; position:absolute; left:0; right:0; bottom:-2px; height:2px; background:var(--gold);}
+  .more-wrap{position:relative;}
+  .more-menu{display:none; position:absolute; top:36px; left:0; background:var(--paper); border:1px solid var(--ink); min-width:180px; box-shadow:0 10px 24px rgba(0,0,0,.12); z-index:60;}
+  .more-menu.open{display:block;}
+  .more-menu button{display:block; width:100%; text-align:left; padding:12px 16px; font-size:13.5px; font-weight:600;}
+  .more-menu button:hover{background:var(--paper-dim);}
+  .nav-right{display:flex; align-items:center; gap:14px;}
+  .icon-btn{display:flex; align-items:center; gap:8px; font-weight:600; font-size:13.5px; padding:9px 14px; border:1px solid var(--ink);}
+  .icon-btn.filled{background:var(--ink); color:var(--paper);}
+  .cart-count{background:var(--gold); color:var(--ink); border-radius:50%; width:19px; height:19px; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700;}
+
+  .view{display:none; animation:fade .3s ease;}
+  .view.active{display:block;}
+  @keyframes fade{from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);}}
+
+  /* HOME */
+  .hero{background:var(--ink); color:var(--paper); padding:100px 32px 76px;}
+  .hero-grid{max-width:1280px; margin:0 auto; display:grid; grid-template-columns:1.15fr .85fr; gap:50px; align-items:center;}
+  .hero h1{font-size:clamp(38px,5.5vw,66px); margin-bottom:22px;}
+  .hero p{font-size:16.5px; max-width:430px; color:#D9D2C2; margin-bottom:30px; line-height:1.6;}
+  .eyebrow{font-size:12.5px; letter-spacing:.12em; color:var(--gold-light); font-weight:700; margin-bottom:18px;}
+  .btn-primary{display:inline-block; background:var(--gold); color:var(--ink); padding:14px 28px; font-weight:700; font-size:14.5px;}
+  .btn-primary:hover{background:var(--gold-light);}
+  .btn-secondary{display:inline-block; border:1px solid var(--paper); padding:12px 24px; font-weight:700; font-size:14.5px; margin-left:12px;}
+  .garment{aspect-ratio:3/4; position:relative; overflow:hidden; border:1px solid #4a4034;}
+  .garment svg, .garment img{width:100%; height:100%; object-fit:cover;}
+
+  .section{padding:76px 32px; max-width:1280px; margin:0 auto;}
+  .section-head{display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:38px; border-bottom:1px solid var(--ink); padding-bottom:18px;}
+  .section-head h2{font-size:30px;}
+  .section-head a{font-weight:700; font-size:13.5px; border-bottom:1px solid var(--gold);}
+
+  .grid-products{display:grid; grid-template-columns:repeat(4,1fr); gap:26px;}
+  @media(max-width:900px){.grid-products{grid-template-columns:repeat(2,1fr);} .hero-grid{grid-template-columns:1fr;}}
+
+  .card{cursor:pointer; background:var(--paper); border:1px solid var(--line); position:relative;}
+  .card .thumb{aspect-ratio:3/4; position:relative; overflow:hidden;}
+  .card .thumb svg{width:100%; height:100%;}
+  .card .thumb img{width:100%; height:100%; object-fit:cover;}
+  .card .tag{position:absolute; top:10px; left:10px; background:var(--gold); color:var(--ink); font-size:10.5px; font-weight:700; padding:4px 9px; z-index:2; letter-spacing:.03em;}
+  .card .discount-badge{position:absolute; top:10px; right:10px; background:var(--burgundy); color:var(--paper); font-size:10.5px; font-weight:700; padding:4px 9px; z-index:2;}
+  .card .info{padding:16px;}
+  .card .info .name{font-weight:600; font-size:14.5px; margin-bottom:6px;}
+  .price-block{display:flex; align-items:baseline; gap:8px; flex-wrap:wrap;}
+  .price-block .price{color:var(--ink); font-weight:700; font-size:14.5px;}
+  .price-block .orig{color:#8f887a; font-size:12px; text-decoration:line-through;}
+  .card:hover .thumb img{transform:scale(1.03);}
+  .card .thumb img{transition:transform .3s ease;}
+  .card-actions{display:flex; gap:6px; padding:0 12px 12px;}
+  .mini-btn{flex:1; background:var(--ink); color:var(--paper); font-size:10.5px; font-weight:700; padding:8px 6px; text-align:center;}
+  .mini-btn:hover{background:var(--ink-2);}
+  .mini-btn.ghost{background:transparent; color:var(--ink); border:1px solid var(--ink);}
+
+  .strip{background:var(--burgundy); color:var(--paper); padding:46px 32px; display:flex; flex-wrap:wrap; gap:24px; justify-content:space-around; text-align:center;}
+  .strip div h3{font-size:24px; font-family:'Playfair Display';}
+  .strip div p{font-size:12px; opacity:.85; margin-top:4px; letter-spacing:.06em;}
+
+  footer{background:var(--ink); color:var(--paper); padding:54px 32px 26px;}
+  .foot-grid{max-width:1280px; margin:0 auto; display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:30px; padding-bottom:30px; border-bottom:1px solid #443a2e;}
+  footer h4{font-size:13px; margin-bottom:14px; color:var(--gold-light); letter-spacing:.05em;}
+  footer p, footer li{font-size:13.5px; color:#c9c2b2; line-height:2.1; cursor:pointer;}
+  footer .bottom{max-width:1280px; margin:20px auto 0; font-size:12px; color:#8a8172; display:flex; justify-content:space-between;}
+
+  /* GENERIC PAGE HEAD */
+  .page-head{padding:56px 32px 24px; border-bottom:1px solid var(--ink); max-width:1280px; margin:0 auto; display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:16px;}
+  .page-head h1{font-size:38px;}
+  .page-head p{color:#5b5245; max-width:480px; font-size:14.5px; margin-top:8px;}
+  .filters{display:flex; gap:10px; padding:22px 32px; flex-wrap:wrap; max-width:1280px; margin:0 auto;}
+  .filters button{padding:8px 18px; border:1px solid var(--ink); font-weight:600; font-size:13px; background:var(--paper);}
+  .filters button.active{background:var(--ink); color:var(--paper);}
+
+  /* ADD PANEL */
+  .add-panel{display:none; background:var(--paper-dim); border:1px solid var(--ink); margin:0 32px 30px; padding:24px; max-width:1216px; margin-left:auto; margin-right:auto;}
+  .add-panel.open{display:block;}
+  .add-panel h3{font-size:19px; margin-bottom:16px;}
+  .add-grid{display:grid; grid-template-columns:repeat(5,1fr); gap:14px; align-items:end;}
+  @media(max-width:900px){.add-grid{grid-template-columns:1fr 1fr;}}
+  .add-grid .field label, .modal label, .settings-grid label{display:block; font-size:12px; font-weight:700; margin-bottom:6px; color:#5b5245;}
+  .add-grid .field input, .add-grid .field select, .modal input, .modal select, .modal textarea, .settings-grid input, .settings-grid textarea{width:100%; padding:11px 12px; border:1px solid var(--ink); background:var(--paper); font-size:13.5px;}
+  .add-grid .field input[type=file]{padding:8px;}
+
+  /* PRODUCT DETAIL */
+  .pd{padding:56px 32px; display:grid; grid-template-columns:1fr 1fr; gap:60px; max-width:1280px; margin:0 auto;}
+  @media(max-width:900px){.pd{grid-template-columns:1fr;}}
+  .pd-image{aspect-ratio:4/5; position:relative; overflow:hidden; border:1px solid var(--line);}
+  .pd-image svg{width:100%; height:100%;}
+  .pd-image img{width:100%; height:100%; object-fit:cover;}
+  .thumb-row{display:flex; gap:8px; margin-top:10px; flex-wrap:wrap;}
+  .thumb-row .th{width:58px; height:72px; overflow:hidden; border:1px solid var(--line); cursor:pointer; flex-shrink:0;}
+  .thumb-row .th.active{border-color:var(--ink); border-width:2px;}
+  .thumb-row .th img{width:100%; height:100%; object-fit:cover;}
+  .pd-info .cat{color:var(--gold); font-weight:700; font-size:12.5px; margin-bottom:10px; letter-spacing:.06em;}
+  .pd-info h1{font-size:32px; margin-bottom:14px;}
+  .pd-info .price-block{margin-bottom:22px; font-size:22px;}
+  .pd-info .price-block .price{font-size:23px;}
+  .pd-info .price-block .orig{font-size:15px;}
+  .pd-info .desc{font-size:15px; line-height:1.75; color:#4a4234; margin-bottom:22px; max-width:460px;}
+  .sizes{display:flex; gap:10px; margin-bottom:24px;}
+  .sizes button{width:44px; height:38px; border:1px solid var(--ink); background:var(--paper); font-weight:600;}
+  .sizes button.active{background:var(--ink); color:var(--paper);}
+  .add-row{display:flex; gap:14px; flex-wrap:wrap; margin-bottom:20px;}
+  .btn-add{background:var(--ink); color:var(--paper); padding:15px 28px; font-weight:700; font-size:14.5px;}
+  .btn-add:hover{background:var(--ink-2);}
+  .btn-edit-link{font-weight:700; font-size:12.5px; border-bottom:1px solid var(--gold); cursor:pointer;}
+
+  /* CART */
+  .cart-page{padding:56px 32px; max-width:900px; margin:0 auto;}
+  .cart-page h1{font-size:34px; margin-bottom:30px;}
+  .cart-row{display:flex; gap:20px; align-items:center; padding:20px 0; border-bottom:1px solid var(--line);}
+  .cart-row .thumb-sm{width:86px; height:106px; flex-shrink:0; overflow:hidden; border:1px solid var(--line);}
+  .cart-row .thumb-sm svg, .cart-row .thumb-sm img{width:100%; height:100%; object-fit:cover;}
+  .cart-row .meta{flex:1;}
+  .cart-row .meta .name{font-weight:700; font-size:15.5px;}
+  .cart-row .meta .sub{font-size:12.5px; color:#6b6357; margin-top:3px;}
+  .qty-box{display:flex; align-items:center; border:1px solid var(--ink);}
+  .qty-box button{width:28px; height:28px; background:var(--paper); font-weight:700; font-size:15px;}
+  .qty-box span{width:28px; text-align:center; font-weight:600; font-size:14px;}
+  .cart-row .line-price{font-weight:700; width:100px; text-align:right; font-size:14.5px;}
+  .remove{color:var(--red); font-size:12px; font-weight:700; margin-top:6px; display:inline-block;}
+  .cart-summary{margin-top:30px; padding-top:20px; border-top:1px solid var(--ink);}
+  .sum-row{display:flex; justify-content:space-between; font-size:14.5px; margin-bottom:10px;}
+  .sum-row.total{font-size:19px; font-weight:700; margin-top:16px; font-family:'Playfair Display';}
+  .empty-cart{text-align:center; padding:60px 0; color:#6b6357;}
+
+  /* GENERIC CONTENT PAGES (about/payment/storeinfo/contact) */
+  .content-wrap{padding:56px 32px; display:grid; grid-template-columns:1fr 1fr; gap:60px; max-width:1180px; margin:0 auto;}
+  @media(max-width:900px){.content-wrap{grid-template-columns:1fr;}}
+  .content-wrap h1{font-size:36px; margin-bottom:18px;}
+  .content-wrap p.lead{font-size:15px; color:#4a4234; line-height:1.75; margin-bottom:26px; max-width:440px;}
+  .info-item{margin-bottom:20px;}
+  .info-item .label{font-weight:700; font-size:12.5px; color:var(--gold); margin-bottom:4px; letter-spacing:.04em;}
+  form .field{margin-bottom:18px;}
+  form label{display:block; font-size:12.5px; font-weight:700; margin-bottom:6px;}
+  form input, form textarea{width:100%; padding:13px 14px; border:1px solid var(--ink); background:var(--paper); font-family:inherit; font-size:14px;}
+  form textarea{min-height:110px; resize:vertical;}
+  .toast{margin-top:16px; padding:12px 16px; background:var(--burgundy); color:var(--paper); font-weight:600; font-size:13.5px; display:none;}
+
+  .founder-photo{width:100%; aspect-ratio:4/5; object-fit:cover; border:1px solid var(--line); background:var(--paper-dim);}
+  .founder-photo.empty{display:flex; align-items:center; justify-content:center; color:#8f887a; font-size:13px;}
+
+  .qr-box{width:180px; height:180px; border:1px solid var(--ink); display:flex; align-items:center; justify-content:center; background:var(--paper); margin-bottom:10px; overflow:hidden;}
+  .qr-box img{width:100%; height:100%; object-fit:contain;}
+  .pay-method{border:1px solid var(--line); padding:20px; margin-bottom:20px;}
+  .pay-method h3{font-size:17px; margin-bottom:12px;}
+  .pay-row{display:flex; gap:24px; flex-wrap:wrap; align-items:flex-start;}
+
+  /* AUTH PAGES */
+  .auth-wrap{min-height:60vh; display:flex; align-items:center; justify-content:center; padding:60px 20px;}
+  .auth-card{background:var(--paper); border:1px solid var(--ink); max-width:400px; width:100%; padding:36px;}
+  .auth-card h1{font-size:26px; margin-bottom:8px;}
+  .auth-card p.sub{font-size:13.5px; color:#6b6357; margin-bottom:26px;}
+  .auth-card .field{margin-bottom:16px;}
+  .auth-card label{display:block; font-size:12.5px; font-weight:700; margin-bottom:6px;}
+  .auth-card input{width:100%; padding:12px 13px; border:1px solid var(--ink); background:var(--paper); font-size:14px;}
+  .auth-switch{text-align:center; margin-top:20px; font-size:13.5px; color:#6b6357;}
+  .auth-switch span{color:var(--gold); font-weight:700; cursor:pointer; border-bottom:1px solid var(--gold);}
+
+  /* MODAL */
+  .modal-overlay{display:none; position:fixed; inset:0; background:rgba(33,28,24,0.62); z-index:100; align-items:center; justify-content:center; padding:20px;}
+  .modal-overlay.open{display:flex;}
+  .modal{background:var(--paper); border:1px solid var(--ink); max-width:560px; width:100%; padding:28px; max-height:88vh; overflow-y:auto; position:relative;}
+  .modal h3{font-size:20px; margin-bottom:18px;}
+  .modal .field{margin-bottom:16px;}
+  .modal-actions{display:flex; gap:10px; margin-top:20px;}
+  .modal-close{position:absolute; top:14px; right:18px; font-size:20px; font-weight:700; cursor:pointer;}
+  .photo-strip{display:flex; gap:8px; margin-top:12px; flex-wrap:wrap;}
+  .photo-strip img{width:54px; height:54px; object-fit:cover; border:1px solid var(--ink);}
+  .settings-grid{display:grid; grid-template-columns:1fr 1fr; gap:16px;}
+  @media(max-width:600px){.settings-grid{grid-template-columns:1fr;}}
+  .settings-section{margin-bottom:22px; padding-bottom:18px; border-bottom:1px solid var(--line);}
+  .settings-section h4{font-size:14px; margin-bottom:12px; color:var(--gold); letter-spacing:.03em;}
+</style>
+</head>
+<body>
+
+<div id="loadingScreen">STYLE STORE</div>
+
+<header class="site">
+  <div class="navbar">
+    <div class="brand" onclick="go('home')" style="cursor:pointer">STYLE<span>STORE</span></div>
+    <nav class="links">
+      <button onclick="go('home')" data-nav="home">Home</button>
+      <button onclick="go('shop')" data-nav="shop">Shop</button>
+      <div class="more-wrap">
+        <button onclick="toggleMore()">More ▾</button>
+        <div class="more-menu" id="moreMenu">
+          <button onclick="go('newarrivals')">New Arrivals</button>
+          <button onclick="go('bestsellers')">Best Sellers</button>
+          <button onclick="go('about')">About / Founder</button>
+          <button onclick="go('storeinfo')">Store Info</button>
+          <button onclick="go('payment')">Payment</button>
+          <button onclick="go('contact')">Contact</button>
+        </div>
+      </div>
+    </nav>
+    <div class="nav-right">
+      <button class="icon-btn" id="authBtn" onclick="handleAuthClick()">Login</button>
+      <button class="icon-btn filled" onclick="go('cart')">Cart <span class="cart-count" id="cartCount">0</span></button>
+    </div>
+  </div>
+</header>
+
+<!-- HOME -->
+<section class="view active" id="view-home">
+  <div class="hero">
+    <div class="hero-grid">
+      <div>
+        <div class="eyebrow">SHIRTS · PANTS · T-SHIRTS · SHOES · SOCKS</div>
+        <h1>Everyday luxury,<br>styled by you.</h1>
+        <p>Upload your own photos, set your own prices, run your own discounts — a store you fully control, from Butwal to anywhere.</p>
+        <a href="#" class="btn-primary" onclick="go('shop');return false;">Shop the collection</a>
+        <a href="#" class="btn-secondary" onclick="go('about');return false;">Meet the founder</a>
+      </div>
+      <div class="garment" id="heroGarment"></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head">
+      <h2>Best sellers</h2>
+      <a href="#" onclick="go('bestsellers');return false;">View all</a>
+    </div>
+    <div class="grid-products" id="homeProducts"></div>
+  </div>
+
+  <div class="strip">
+    <div><h3>Rs. 2,000+</h3><p>FREE SHIPPING</p></div>
+    <div><h3>eSewa · Khalti</h3><p>SECURE PAYMENT</p></div>
+    <div><h3>YOUR PRICES</h3><p>EDIT ANY TIME</p></div>
+    <div><h3>YOUR PHOTOS</h3><p>UNLIMITED UPLOADS</p></div>
+  </div>
+</section>
+
+<!-- SHOP -->
+<section class="view" id="view-shop">
+  <div class="page-head">
+    <div><h1>Shop everything</h1><p>Browse the full collection, or add your own piece.</p></div>
+    <button class="btn-add" onclick="toggleAddPanel()">+ Add your product</button>
+  </div>
+  <div class="add-panel" id="addPanel">
+    <h3>Add a new product</h3>
+    <div class="add-grid">
+      <div class="field"><label>Product name</label><input id="newName" type="text" placeholder="e.g. Cotton Kurta"></div>
+      <div class="field"><label>Category</label>
+        <select id="newCat">
+          <option>Shirts</option><option>T-Shirts</option><option>Pants</option><option>Shoes</option><option>Socks</option>
+        </select>
+      </div>
+      <div class="field"><label>Price (Rs.)</label><input id="newPrice" type="number" placeholder="1500"></div>
+      <div class="field"><label>Discount % (optional)</label><input id="newDiscount" type="number" placeholder="0" min="0" max="90"></div>
+      <div class="field"><label>Photos (any number)</label><input id="newPhoto" type="file" accept="image/*" multiple></div>
+    </div>
+    <button class="btn-add" style="margin-top:16px" onclick="addNewProduct()">Add product</button>
+  </div>
+  <div class="filters" id="filters"></div>
+  <div class="section" style="padding-top:10px;">
+    <div class="grid-products" id="shopProducts"></div>
+  </div>
+</section>
+
+<!-- NEW ARRIVALS -->
+<section class="view" id="view-newarrivals">
+  <div class="page-head"><div><h1>New Arrivals</h1><p>The latest trend pieces added to the store.</p></div></div>
+  <div class="section" style="padding-top:30px;"><div class="grid-products" id="newArrivalsGrid"></div></div>
+</section>
+
+<!-- BEST SELLERS -->
+<section class="view" id="view-bestsellers">
+  <div class="page-head"><div><h1>Best Sellers</h1><p>Customer favourites, tagged and curated by you.</p></div></div>
+  <div class="section" style="padding-top:30px;"><div class="grid-products" id="bestSellersGrid"></div></div>
+</section>
+
+<!-- PRODUCT -->
+<section class="view" id="view-product">
+  <div class="pd" id="pdWrap"></div>
+</section>
+
+<!-- CART -->
+<section class="view" id="view-cart">
+  <div class="cart-page">
+    <h1>Your cart</h1>
+    <div id="cartItems"></div>
+    <div id="cartSummary"></div>
+  </div>
+</section>
+
+<!-- PAYMENT -->
+<section class="view" id="view-payment">
+  <div class="page-head"><div><h1>Payment options</h1><p>Scan a QR code or transfer directly — updated by the store owner.</p></div>
+    <button class="btn-add" onclick="openSettings()">Edit payment details</button>
+  </div>
+  <div class="content-wrap" style="grid-template-columns:1fr; max-width:800px;" id="paymentWrap"></div>
+</section>
+
+<!-- ABOUT / FOUNDER -->
+<section class="view" id="view-about">
+  <div class="content-wrap" id="aboutWrap"></div>
+</section>
+
+<!-- STORE INFO -->
+<section class="view" id="view-storeinfo">
+  <div class="page-head"><div><h1>What we stock</h1><p>An overview of what's available in the store right now.</p></div>
+    <button class="btn-add" onclick="openSettings()">Edit store info</button>
+  </div>
+  <div class="section" style="padding-top:10px; max-width:800px;"><p id="storeInfoText" style="font-size:15.5px; line-height:1.85; color:#4a4234; white-space:pre-line;"></p></div>
+</section>
+
+<!-- CONTACT -->
+<section class="view" id="view-contact">
+  <div class="content-wrap">
+    <div>
+      <h1>Get in touch</h1>
+      <p class="lead">Questions about sizing, an order, or a bulk request — send a note and we'll get back within a day.</p>
+      <div class="info-item"><div class="label">STORE</div><span id="contactAddress"></span></div>
+      <div class="info-item"><div class="label">PHONE</div><span id="contactPhone"></span></div>
+      <div class="info-item"><div class="label">HOURS</div>Sun–Fri, 10am – 7pm</div>
+      <button class="btn-edit-link" onclick="openSettings()">Edit contact details</button>
+    </div>
+    <div>
+      <form id="contactForm" onsubmit="submitContact(event)">
+        <div class="field"><label>Name</label><input required type="text" placeholder="Your name"></div>
+        <div class="field"><label>Email</label><input required type="email" placeholder="you@example.com"></div>
+        <div class="field"><label>Message</label><textarea required placeholder="How can we help?"></textarea></div>
+        <button type="submit" class="btn-add">Send message</button>
+        <div class="toast" id="contactToast">Thanks — we'll reply within a day.</div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- LOGIN -->
+<section class="view" id="view-login">
+  <div class="auth-wrap">
+    <div class="auth-card">
+      <h1>Welcome back</h1>
+      <p class="sub">Sign in to your Style Store account.</p>
+      <form onsubmit="doLogin(event)">
+        <div class="field"><label>Email</label><input required type="email" placeholder="you@example.com"></div>
+        <div class="field"><label>Password</label><input required type="password" placeholder="••••••••"></div>
+        <button type="submit" class="btn-add" style="width:100%;">Sign in</button>
+      </form>
+      <div class="auth-switch">New here? <span onclick="go('signup')">Create an account</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- SIGN UP -->
+<section class="view" id="view-signup">
+  <div class="auth-wrap">
+    <div class="auth-card">
+      <h1>Create account</h1>
+      <p class="sub">Join Style Store to save your cart and orders.</p>
+      <form onsubmit="doSignup(event)">
+        <div class="field"><label>Full name</label><input id="suName" required type="text" placeholder="Your name"></div>
+        <div class="field"><label>Email</label><input required type="email" placeholder="you@example.com"></div>
+        <div class="field"><label>Password</label><input required type="password" placeholder="••••••••"></div>
+        <button type="submit" class="btn-add" style="width:100%;">Create account</button>
+      </form>
+      <div class="auth-switch">Already have an account? <span onclick="go('login')">Sign in</span></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-grid">
+    <div>
+      <h4>STYLE STORE</h4>
+      <p style="cursor:default;">Luxury everyday clothing — shirts, pants, t-shirts, shoes and socks. Founded and run from Butwal, Nepal.</p>
+    </div>
+    <div>
+      <h4>SHOP</h4>
+      <li onclick="go('shop')">All products</li>
+      <li onclick="go('newarrivals')">New Arrivals</li>
+      <li onclick="go('bestsellers')">Best Sellers</li>
+      <li onclick="go('cart')">Your cart</li>
+    </div>
+    <div>
+      <h4>STORE</h4>
+      <li onclick="go('about')">About / Founder</li>
+      <li onclick="go('storeinfo')">Store Info</li>
+      <li onclick="go('payment')">Payment</li>
+      <li onclick="go('contact')">Contact</li>
+    </div>
+    <div>
+      <h4>ACCOUNT</h4>
+      <li onclick="go('login')">Login</li>
+      <li onclick="go('signup')">Sign up</li>
+    </div>
+  </div>
+  <div class="bottom"><span>© 2026 Style Store</span><span>Built for Sachin Shrestha</span></div>
+</footer>
+
+<!-- EDIT PRODUCT MODAL -->
+<div class="modal-overlay" id="editOverlay">
+  <div class="modal">
+    <span class="modal-close" onclick="closeEdit()">&times;</span>
+    <h3>Edit product</h3>
+    <div class="field"><label>Product name</label><input id="editName" type="text"></div>
+    <div class="field"><label>Category</label>
+      <select id="editCat"><option>Shirts</option><option>T-Shirts</option><option>Pants</option><option>Shoes</option><option>Socks</option></select>
+    </div>
+    <div class="field"><label>Price (Rs.)</label><input id="editPrice" type="number"></div>
+    <div class="field"><label>Discount % (0 = no discount)</label><input id="editDiscount" type="number" min="0" max="90"></div>
+    <div class="field"><label>Mark as</label>
+      <select id="editTag"><option value="">No tag</option><option value="NEW">New Arrival</option><option value="BEST SELLER">Best Seller</option></select>
+    </div>
+    <div class="field"><label>Add more photos</label><input id="editPhoto" type="file" accept="image/*" multiple></div>
+    <div class="photo-strip" id="editPhotoStrip"></div>
+    <div class="modal-actions">
+      <button class="btn-add" onclick="saveEdit()">Save changes</button>
+      <button class="mini-btn ghost" style="flex:none; padding:14px 20px;" onclick="closeEdit()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- STORE SETTINGS MODAL (founder / payment / contact / store info) -->
+<div class="modal-overlay" id="settingsOverlay">
+  <div class="modal" style="max-width:640px;">
+    <span class="modal-close" onclick="closeSettings()">&times;</span>
+    <h3>Store settings</h3>
+
+    <div class="settings-section">
+      <h4>FOUNDER</h4>
+      <div class="settings-grid">
+        <div class="field"><label>Founder name</label><input id="setFounderName" type="text"></div>
+        <div class="field"><label>Founder photo</label><input id="setFounderPhoto" type="file" accept="image/*"></div>
+      </div>
+      <div class="field" style="margin-top:12px;"><label>Founder bio / message</label><textarea id="setFounderBio" rows="3"></textarea></div>
+    </div>
+
+    <div class="settings-section">
+      <h4>STORE INFO</h4>
+      <div class="field"><label>What's available in the store (shown on Store Info page)</label><textarea id="setStoreInfo" rows="3"></textarea></div>
+    </div>
+
+    <div class="settings-section">
+      <h4>CONTACT</h4>
+      <div class="settings-grid">
+        <div class="field"><label>Contact number</label><input id="setPhone" type="text"></div>
+        <div class="field"><label>Store address</label><input id="setAddress" type="text"></div>
+      </div>
+    </div>
+
+    <div class="settings-section" style="border-bottom:none;">
+      <h4>PAYMENT</h4>
+      <div class="settings-grid">
+        <div class="field"><label>eSewa ID / number</label><input id="setEsewa" type="text"></div>
+        <div class="field"><label>eSewa QR photo</label><input id="setEsewaQR" type="file" accept="image/*"></div>
+        <div class="field"><label>Khalti ID / number</label><input id="setKhalti" type="text"></div>
+        <div class="field"><label>Khalti QR photo</label><input id="setKhaltiQR" type="file" accept="image/*"></div>
+        <div class="field"><label>Bank / other transfer details</label><input id="setBank" type="text" placeholder="Bank name, account no."></div>
+      </div>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn-add" onclick="saveSettings()">Save settings</button>
+      <button class="mini-btn ghost" style="flex:none; padding:14px 20px;" onclick="closeSettings()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ============ DATA ============
+let nextId = 11;
+let editingId = null;
+
+let products = [
+  {id:1, name:"Classic Oxford Shirt", cat:"Shirts", price:1800, discount:0, tag:"BEST SELLER", color:"#5E2430", desc:"A crisp cotton oxford shirt that works for both office and evening. Breathable weave, tailored fit.", images:[]},
+  {id:2, name:"Linen Casual Shirt", cat:"Shirts", price:1650, discount:0, tag:null, color:"#6b5638", desc:"Lightweight linen blend shirt, perfect for warm days. Relaxed fit with a soft hand-feel.", images:[]},
+  {id:3, name:"Graphic Print Tee", cat:"T-Shirts", price:750, discount:15, tag:"NEW", color:"#33291F", desc:"100% combed cotton t-shirt with a bold print. Pre-shrunk and colorfast.", images:[]},
+  {id:4, name:"Essential Plain Tee", cat:"T-Shirts", price:550, discount:0, tag:"BEST SELLER", color:"#8B7355", desc:"The everyday tee — soft 180gsm cotton in a regular fit that layers well.", images:[]},
+  {id:5, name:"Slim Fit Chino", cat:"Pants", price:2100, discount:0, tag:null, color:"#40506B", desc:"Tapered chino trouser in stretch cotton twill, comfortable enough for all-day wear.", images:[]},
+  {id:6, name:"Denim Jeans", cat:"Pants", price:2600, discount:10, tag:"NEW", color:"#2f3b52", desc:"Mid-rise straight denim jeans built to last, with a classic five-pocket cut.", images:[]},
+  {id:7, name:"Running Sneakers", cat:"Shoes", price:3200, discount:0, tag:"BEST SELLER", color:"#6B5B4A", desc:"Lightweight cushioned sneakers designed for daily wear and light runs.", images:[]},
+  {id:8, name:"Leather Formal Shoes", cat:"Shoes", price:4200, discount:0, tag:null, color:"#4A3D2E", desc:"Genuine leather lace-up shoes with a cushioned insole, built for the office.", images:[]},
+  {id:9, name:"Ankle Socks (3-pack)", cat:"Socks", price:350, discount:0, tag:null, color:"#5E2430", desc:"Breathable cotton-blend ankle socks with reinforced heel and toe, sold as a pack of 3.", images:[]},
+  {id:10, name:"Crew Socks (5-pack)", cat:"Socks", price:500, discount:0, tag:"NEW", color:"#7A6A4F", desc:"Everyday crew socks in a soft cotton blend, pack of 5 in mixed colors.", images:[]},
+];
+
+let storeConfig = {
+  founderName: "Sachin Shrestha",
+  founderPhoto: null,
+  founderBio: "I started Style Store to bring honest, well-made everyday clothing to Butwal — shirts, pants, t-shirts, shoes and socks, priced fairly and photographed by me.",
+  storeInfo: "We currently stock shirts, t-shirts, pants, shoes and socks for men. New arrivals are added regularly — check the New Arrivals page for the latest pieces. Custom sizing requests can be sent through the Contact page.",
+  phone: "+977 98XXXXXXXX",
+  address: "Traffic Chowk Road, Butwal, Lumbini Province, Nepal",
+  esewa: "esewa-id-here",
+  esewaQR: null,
+  khalti: "khalti-id-here",
+  khaltiQR: null,
+  bank: "Add your bank name and account number here"
+};
+
+let currentUser = null; // {name, email}
+const cart = {};
+let currentProduct = null;
+let currentImageIndex = 0;
+let currentFilter = "All";
+
+// ============ PERSISTENT STORAGE ============
+async function loadAll(){
+  try{
+    const r = await window.storage.get('products', true);
+    if(r && r.value) products = JSON.parse(r.value);
+  }catch(e){ await saveProducts(); }
+  try{
+    const r = await window.storage.get('store-config', true);
+    if(r && r.value) storeConfig = Object.assign(storeConfig, JSON.parse(r.value));
+  }catch(e){ await saveConfig(); }
+  try{
+    const r = await window.storage.get('cart', false);
+    if(r && r.value){ const saved = JSON.parse(r.value); Object.assign(cart, saved); }
+  }catch(e){ /* no saved cart yet */ }
+  document.getElementById('loadingScreen').style.display = 'none';
+  renderAll();
+}
+async function saveProducts(){ try{ await window.storage.set('products', JSON.stringify(products), true); }catch(e){ console.error('save products failed', e); } }
+async function saveConfig(){ try{ await window.storage.set('store-config', JSON.stringify(storeConfig), true); }catch(e){ console.error('save config failed', e); } }
+async function saveCartData(){ try{ await window.storage.set('cart', JSON.stringify(cart), false); }catch(e){ console.error('save cart failed', e); } }
+
+// ============ CATEGORY ICONS ============
+function categoryIcon(cat, color){
+  const bg = `<rect width="200" height="220" fill="${color}"/>`;
+  const stroke = `stroke="#F6F2EA" stroke-width="3" fill="none" opacity="0.9"`;
+  let shape = '';
+  if(cat === 'Shirts'){
+    shape = `<path d="M60 40 L82 28 L100 42 L118 28 L140 40 L150 70 L130 78 L128 165 L72 165 L70 78 L50 70 Z" ${stroke}/><path d="M82 28 Q100 55 118 28" ${stroke}/>`;
+  } else if(cat === 'T-Shirts'){
+    shape = `<path d="M65 42 L85 32 L100 44 L115 32 L135 42 L142 62 L124 70 L122 168 L78 168 L76 70 L58 62 Z" ${stroke}/><path d="M85 32 Q100 50 115 32" ${stroke}/>`;
+  } else if(cat === 'Pants'){
+    shape = `<path d="M68 30 L132 30 L128 100 L112 190 L96 190 L94 108 L106 108 L104 190 L88 190 L72 100 Z" ${stroke}/><line x1="68" y1="46" x2="132" y2="46" ${stroke}/>`;
+  } else if(cat === 'Shoes'){
+    shape = `<path d="M40 150 Q42 128 66 122 L104 108 Q126 100 148 106 Q166 112 168 130 Q170 144 158 150 L44 150 Z" ${stroke}/><line x1="44" y1="150" x2="168" y2="150" ${stroke}/><line x1="66" y1="122" x2="66" y2="140" ${stroke}/>`;
+  } else if(cat === 'Socks'){
+    shape = `<path d="M84 28 L118 28 L118 118 Q118 138 138 144 L158 150 Q166 152 164 166 L118 166 Q90 166 84 140 Z" ${stroke}/><line x1="84" y1="48" x2="118" y2="48" ${stroke}/>`;
+  } else {
+    shape = `<path d="M60 40 L82 28 L100 42 L118 28 L140 40 L150 70 L130 78 L128 165 L72 165 L70 78 L50 70 Z" ${stroke}/>`;
+  }
+  return `<svg viewBox="0 0 200 220" xmlns="http://www.w3.org/2000/svg">${bg}${shape}</svg>`;
+}
+function productVisual(p, idx){
+  const i = idx || 0;
+  if(p.images && p.images.length) return `<img src="${p.images[Math.min(i,p.images.length-1)]}" alt="${p.name}">`;
+  return categoryIcon(p.cat, p.color);
+}
+function salePrice(p){ return p.discount>0 ? Math.round(p.price * (1 - p.discount/100)) : p.price; }
+function priceBlockHTML(p){
+  if(p.discount>0) return `<div class="price-block"><span class="price">${money(salePrice(p))}</span><span class="orig">${money(p.price)}</span></div>`;
+  return `<div class="price-block"><span class="price">${money(p.price)}</span></div>`;
+}
+function money(n){ return "Rs. " + n.toLocaleString(); }
+
+// ============ RENDERING ============
+function productCard(p){
+  return `<div class="card">
+    <div class="thumb" onclick="openProduct(${p.id})">
+      ${p.tag ? `<div class="tag">${p.tag}</div>`:""}
+      ${p.discount>0 ? `<div class="discount-badge">${p.discount}% OFF</div>`:""}
+      ${productVisual(p)}
+    </div>
+    <div class="info" onclick="openProduct(${p.id})">
+      <div class="name">${p.name}</div>
+      ${priceBlockHTML(p)}
+    </div>
+    <div class="card-actions">
+      <button class="mini-btn" onclick="openEdit(${p.id})">Edit price / photos</button>
+    </div>
+  </div>`;
+}
+
+function renderHome(){
+  document.getElementById('homeProducts').innerHTML = products.filter(p=>p.tag==='BEST SELLER').slice(0,4).map(productCard).join('') || products.slice(0,4).map(productCard).join('');
+  document.getElementById('heroGarment').innerHTML = productVisual(products[0]);
+}
+function renderFilters(){
+  const cats = ["All", "Shirts", "T-Shirts", "Pants", "Shoes", "Socks"];
+  document.getElementById('filters').innerHTML = cats.map(c =>
+    `<button class="${c===currentFilter?'active':''}" onclick="setFilter('${c}')">${c}</button>`
+  ).join('');
+}
+function setFilter(c){ currentFilter = c; renderFilters(); renderShop(); }
+function renderShop(){
+  const list = currentFilter==="All" ? products : products.filter(p=>p.cat===currentFilter);
+  document.getElementById('shopProducts').innerHTML = list.length ? list.map(productCard).join('') : `<div class="empty-cart">No products in this category yet.</div>`;
+}
+function renderNewArrivals(){
+  const list = products.filter(p=>p.tag==='NEW');
+  document.getElementById('newArrivalsGrid').innerHTML = list.length ? list.map(productCard).join('') : `<div class="empty-cart">No new arrivals tagged yet — mark a product as "New Arrival" from Edit.</div>`;
+}
+function renderBestSellers(){
+  const list = products.filter(p=>p.tag==='BEST SELLER');
+  document.getElementById('bestSellersGrid').innerHTML = list.length ? list.map(productCard).join('') : `<div class="empty-cart">No best sellers tagged yet — mark a product as "Best Seller" from Edit.</div>`;
+}
+
+function renderAbout(){
+  document.getElementById('aboutWrap').innerHTML = `
+    <div>
+      ${storeConfig.founderPhoto ? `<img class="founder-photo" src="${storeConfig.founderPhoto}">` : `<div class="founder-photo empty">No founder photo yet</div>`}
+    </div>
+    <div>
+      <div class="eyebrow" style="color:var(--gold)">FOUNDER</div>
+      <h1>${storeConfig.founderName}</h1>
+      <p class="lead">${storeConfig.founderBio}</p>
+      <button class="btn-edit-link" onclick="openSettings()">Edit founder details</button>
+    </div>
+  `;
+}
+
+function renderPayment(){
+  document.getElementById('paymentWrap').innerHTML = `
+    <div class="pay-method">
+      <h3>eSewa</h3>
+      <div class="pay-row">
+        <div class="qr-box">${storeConfig.esewaQR ? `<img src="${storeConfig.esewaQR}">` : `<span style="font-size:12px;color:#8f887a;padding:10px;text-align:center;">No QR uploaded yet</span>`}</div>
+        <div><div class="info-item"><div class="label">eSewa ID</div>${storeConfig.esewa}</div></div>
+      </div>
+    </div>
+    <div class="pay-method">
+      <h3>Khalti</h3>
+      <div class="pay-row">
+        <div class="qr-box">${storeConfig.khaltiQR ? `<img src="${storeConfig.khaltiQR}">` : `<span style="font-size:12px;color:#8f887a;padding:10px;text-align:center;">No QR uploaded yet</span>`}</div>
+        <div><div class="info-item"><div class="label">Khalti ID</div>${storeConfig.khalti}</div></div>
+      </div>
+    </div>
+    <div class="pay-method">
+      <h3>Bank transfer</h3>
+      <p style="font-size:14.5px; color:#4a4234;">${storeConfig.bank}</p>
+    </div>
+    <p style="font-size:12.5px; color:#8f887a; margin-top:10px;">After paying, send a screenshot to the contact number below so your order can be confirmed.</p>
+  `;
+}
+
+function renderStoreInfo(){ document.getElementById('storeInfoText').textContent = storeConfig.storeInfo; }
+function renderContactInfo(){
+  document.getElementById('contactAddress').textContent = storeConfig.address;
+  document.getElementById('contactPhone').textContent = storeConfig.phone;
+}
+
+function toggleAddPanel(){ document.getElementById('addPanel').classList.toggle('open'); }
+function toggleMore(){ document.getElementById('moreMenu').classList.toggle('open'); }
+document.addEventListener('click', (e)=>{
+  const wrap = document.querySelector('.more-wrap');
+  if(wrap && !wrap.contains(e.target)) document.getElementById('moreMenu').classList.remove('open');
+});
+
+function readFilesAsDataURLs(fileList, callback){
+  const files = Array.from(fileList || []);
+  if(files.length === 0){ callback([]); return; }
+  const results = [];
+  let done = 0;
+  files.forEach((file, i) => {
+    const reader = new FileReader();
+    reader.onload = e => { results[i] = e.target.result; done++; if(done === files.length) callback(results); };
+    reader.readAsDataURL(file);
+  });
+}
+function readSingleFile(file, callback){
+  if(!file){ callback(null); return; }
+  const reader = new FileReader();
+  reader.onload = e => callback(e.target.result);
+  reader.readAsDataURL(file);
+}
+
+function addNewProduct(){
+  const name = document.getElementById('newName').value.trim();
+  const cat = document.getElementById('newCat').value;
+  const price = parseInt(document.getElementById('newPrice').value, 10);
+  const discount = parseInt(document.getElementById('newDiscount').value, 10) || 0;
+  const fileInput = document.getElementById('newPhoto');
+  if(!name || !price){ alert('Please enter a product name and price.'); return; }
+  const palette = ["#5E2430","#6b5638","#33291F","#8B7355","#40506B","#2f3b52","#6B5B4A","#4A3D2E"];
+  readFilesAsDataURLs(fileInput.files, async (images) => {
+    products.push({id:nextId, name, cat, price, discount, tag:"NEW", color: palette[nextId % palette.length], desc:`${name} — added to your store. Edit this any time.`, images});
+    nextId++;
+    await saveProducts();
+    toggleAddPanel();
+    document.getElementById('newName').value=''; document.getElementById('newPrice').value=''; document.getElementById('newDiscount').value=''; fileInput.value='';
+    renderShop(); renderHome(); renderFilters(); renderNewArrivals(); renderBestSellers();
+  });
+}
+
+function openProduct(id){ currentProduct = products.find(p=>p.id===id); currentImageIndex = 0; renderProduct(); go('product'); }
+function setMainImage(idx){ currentImageIndex = idx; renderProduct(); }
+
+function renderProduct(){
+  const p = currentProduct; if(!p) return;
+  const gallery = (p.images && p.images.length > 1) ? `<div class="thumb-row">${p.images.map((img,i)=>`<div class="th ${i===currentImageIndex?'active':''}" onclick="setMainImage(${i})"><img src="${img}"></div>`).join('')}</div>` : '';
+  document.getElementById('pdWrap').innerHTML = `
+    <div><div class="pd-image">${productVisual(p, currentImageIndex)}</div>${gallery}</div>
+    <div class="pd-info">
+      <div class="cat">${p.cat.toUpperCase()}</div>
+      <h1>${p.name}</h1>
+      ${priceBlockHTML(p)}
+      <div class="desc">${p.desc}</div>
+      <div class="sizes" id="sizeRow">${["S","M","L","XL"].map((s,i)=>`<button class="${i===1?'active':''}" onclick="selectSize(this)">${s}</button>`).join('')}</div>
+      <div class="add-row"><button class="btn-add" onclick="addToCart(${p.id})">Add to cart — ${money(salePrice(p))}</button></div>
+      <span class="btn-edit-link" onclick="openEdit(${p.id})">Edit price, discount or photos</span>
+    </div>
+  `;
+}
+function selectSize(el){ el.parentElement.querySelectorAll('button').forEach(b=>b.classList.remove('active')); el.classList.add('active'); }
+
+// ============ EDIT PRODUCT MODAL ============
+function openEdit(id){
+  editingId = id;
+  const p = products.find(pr=>pr.id===id);
+  document.getElementById('editName').value = p.name;
+  document.getElementById('editCat').value = p.cat;
+  document.getElementById('editPrice').value = p.price;
+  document.getElementById('editDiscount').value = p.discount || 0;
+  document.getElementById('editTag').value = p.tag || '';
+  document.getElementById('editPhoto').value = '';
+  document.getElementById('editPhotoStrip').innerHTML = (p.images||[]).map(img=>`<img src="${img}">`).join('');
+  document.getElementById('editOverlay').classList.add('open');
+}
+function closeEdit(){ document.getElementById('editOverlay').classList.remove('open'); editingId = null; }
+function saveEdit(){
+  const p = products.find(pr=>pr.id===editingId); if(!p) return;
+  p.name = document.getElementById('editName').value.trim() || p.name;
+  p.cat = document.getElementById('editCat').value;
+  p.price = parseInt(document.getElementById('editPrice').value, 10) || p.price;
+  p.discount = parseInt(document.getElementById('editDiscount').value, 10) || 0;
+  p.tag = document.getElementById('editTag').value || null;
+  const fileInput = document.getElementById('editPhoto');
+  readFilesAsDataURLs(fileInput.files, async (newImages) => {
+    p.images = (p.images || []).concat(newImages);
+    await saveProducts();
+    renderHome(); renderShop(); renderFilters(); renderNewArrivals(); renderBestSellers();
+    if(currentProduct && currentProduct.id === p.id){ currentImageIndex = 0; renderProduct(); }
+    renderCart();
+    closeEdit();
+  });
+}
+
+// ============ STORE SETTINGS MODAL ============
+function openSettings(){
+  document.getElementById('setFounderName').value = storeConfig.founderName;
+  document.getElementById('setFounderBio').value = storeConfig.founderBio;
+  document.getElementById('setStoreInfo').value = storeConfig.storeInfo;
+  document.getElementById('setPhone').value = storeConfig.phone;
+  document.getElementById('setAddress').value = storeConfig.address;
+  document.getElementById('setEsewa').value = storeConfig.esewa;
+  document.getElementById('setKhalti').value = storeConfig.khalti;
+  document.getElementById('setBank').value = storeConfig.bank;
+  ['setFounderPhoto','setEsewaQR','setKhaltiQR'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('settingsOverlay').classList.add('open');
+}
+function closeSettings(){ document.getElementById('settingsOverlay').classList.remove('open'); }
+function saveSettings(){
+  storeConfig.founderName = document.getElementById('setFounderName').value.trim() || storeConfig.founderName;
+  storeConfig.founderBio = document.getElementById('setFounderBio').value.trim() || storeConfig.founderBio;
+  storeConfig.storeInfo = document.getElementById('setStoreInfo').value.trim() || storeConfig.storeInfo;
+  storeConfig.phone = document.getElementById('setPhone').value.trim() || storeConfig.phone;
+  storeConfig.address = document.getElementById('setAddress').value.trim() || storeConfig.address;
+  storeConfig.esewa = document.getElementById('setEsewa').value.trim() || storeConfig.esewa;
+  storeConfig.khalti = document.getElementById('setKhalti').value.trim() || storeConfig.khalti;
+  storeConfig.bank = document.getElementById('setBank').value.trim() || storeConfig.bank;
+
+  const fp = document.getElementById('setFounderPhoto').files[0];
+  const eq = document.getElementById('setEsewaQR').files[0];
+  const kq = document.getElementById('setKhaltiQR').files[0];
+
+  readSingleFile(fp, (imgF)=>{
+    if(imgF) storeConfig.founderPhoto = imgF;
+    readSingleFile(eq, (imgE)=>{
+      if(imgE) storeConfig.esewaQR = imgE;
+      readSingleFile(kq, async (imgK)=>{
+        if(imgK) storeConfig.khaltiQR = imgK;
+        await saveConfig();
+        renderAbout(); renderPayment(); renderStoreInfo(); renderContactInfo();
+        closeSettings();
+      });
+    });
+  });
+}
+
+// ============ CART ============
+function addToCart(id){
+  const size = document.querySelector('#sizeRow button.active')?.textContent || "M";
+  const key = id+"-"+size;
+  if(!cart[key]) cart[key] = {id, size, qty:0};
+  cart[key].qty += 1;
+  updateCartCount(); renderCart(); saveCartData();
+}
+function updateCartCount(){ document.getElementById('cartCount').textContent = Object.values(cart).reduce((s,i)=>s+i.qty,0); }
+function changeQty(key, delta){
+  cart[key].qty += delta;
+  if(cart[key].qty <= 0) delete cart[key];
+  updateCartCount(); renderCart(); saveCartData();
+}
+function renderCart(){
+  const keys = Object.keys(cart);
+  const itemsEl = document.getElementById('cartItems');
+  const sumEl = document.getElementById('cartSummary');
+  if(keys.length === 0){
+    itemsEl.innerHTML = `<div class="empty-cart">Your cart is empty.<br><br><a href="#" class="btn-primary" onclick="go('shop');return false;">Browse the shop</a></div>`;
+    sumEl.innerHTML = ''; return;
+  }
+  itemsEl.innerHTML = keys.map(key=>{
+    const item = cart[key]; const p = products.find(pr=>pr.id===item.id); if(!p) return '';
+    return `<div class="cart-row">
+      <div class="thumb-sm">${productVisual(p)}</div>
+      <div class="meta"><div class="name">${p.name}</div><div class="sub">Size ${item.size}</div><span class="remove" onclick="changeQty('${key}', -${item.qty})">Remove</span></div>
+      <div class="qty-box"><button onclick="changeQty('${key}', -1)">–</button><span>${item.qty}</span><button onclick="changeQty('${key}', 1)">+</button></div>
+      <div class="line-price">${money(salePrice(p) * item.qty)}</div>
+    </div>`;
+  }).join('');
+  const subtotal = keys.reduce((s,key)=>{ const p = products.find(pr=>pr.id===cart[key].id); return s + (p ? salePrice(p) * cart[key].qty : 0); },0);
+  const shipping = subtotal >= 2000 ? 0 : 150;
+  sumEl.innerHTML = `
+    <div class="cart-summary">
+      <div class="sum-row"><span>Subtotal</span><span>${money(subtotal)}</span></div>
+      <div class="sum-row"><span>Shipping</span><span>${shipping===0?'Free':money(shipping)}</span></div>
+      <div class="sum-row total"><span>Total</span><span>${money(subtotal+shipping)}</span></div>
+      <button class="btn-add" style="width:100%;margin-top:20px;" onclick="go('payment')">Proceed to payment</button>
+    </div>`;
+}
+
+function submitContact(e){ e.preventDefault(); document.getElementById('contactToast').style.display = 'block'; e.target.reset(); }
+
+// ============ AUTH (demo only, no real backend) ============
+function handleAuthClick(){ currentUser ? doLogout() : go('login'); }
+function doLogin(e){
+  e.preventDefault();
+  const email = e.target.querySelector('input[type=email]').value;
+  currentUser = { name: email.split('@')[0], email };
+  updateAuthUI(); go('home');
+}
+function doSignup(e){
+  e.preventDefault();
+  const name = document.getElementById('suName').value.trim();
+  const email = e.target.querySelector('input[type=email]').value;
+  currentUser = { name, email };
+  updateAuthUI(); go('home');
+}
+function doLogout(){ currentUser = null; updateAuthUI(); go('home'); }
+function updateAuthUI(){
+  const btn = document.getElementById('authBtn');
+  btn.textContent = currentUser ? `Hi, ${currentUser.name} · Logout` : 'Login';
+}
+
+// ============ NAVIGATION ============
+function go(view){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.getElementById('view-'+view).classList.add('active');
+  document.querySelectorAll('nav.links > button').forEach(b=>b.classList.toggle('active', b.dataset.nav===view));
+  document.getElementById('moreMenu').classList.remove('open');
+  window.scrollTo({top:0, behavior:'instant'});
+}
+
+function renderAll(){
+  renderHome(); renderFilters(); renderShop(); renderNewArrivals(); renderBestSellers();
+  renderCart(); renderAbout(); renderPayment(); renderStoreInfo(); renderContactInfo();
+}
+
+loadAll();
+</script>
+</body>
+</html>
